@@ -8,9 +8,8 @@
         <li><a href="#" onclick="loadForum('{{ item.forumId }}')">{{ item.forumName }}</a></li>
     {% endfor %}
     <br>
-    <h6><a href="loadForum(0)">添加</a></h6>
-    </ul>
-    
+    <h6><a href="#" onclick="loadForum(0)">添加</a></h6>
+    </ul>    
   </div>
   <div class="span9">
       <form id="form">
@@ -19,7 +18,7 @@
         <br>
         名称：<input type="text" name="forumName" id="forumName">
         <br>
-        <button class="btn btn-large btn-primary" type="submit" onclick="submit()">保存</button>
+        <button class="btn btn-large btn-primary" type="button" onclick="submitForum()">保存</button>
       </form>
   </div>
 </div>
@@ -28,18 +27,27 @@
 var action='new';
 //提交
 function submitForum(){
-
+	$.post("add_forum",{
+		'forumId':$("#forumId").val(),
+		'forumName':$("#forumName").val()
+	},function(msg){
+	if(msg=='OK'){
+		$("#forumId").val("0");
+		$("#forumName").val("填写名字")
+	}
+	});
 }
+//加载
 function loadForum(forumId){
   if(forumId==0){
-    $("#forumId").val("");
+    $("#forumId").val("0");
     $("#forumName").val("填写名字")
   }
   else{
     //ajax加载
     $.getJSON("get_forum",{'forumId':forumId},function(json){
       //alert("Data: " + data + "\nStatus: " + status);
-      alert(json.forumId)
+    
       $("#forumId").val(json.forumId);
       $("#forumName").val(json.forumName);  
   });
