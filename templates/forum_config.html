@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row-fluid marketing">
+  <div class="span3">
+    <h4>论坛列表</h4>
+    <ul>
+    {% for item in forumList %}
+        <li><a href="#" onclick="loadForum('{{ item.forumId }}')">{{ item.forumName }}</a></li>
+    {% endfor %}
+    <br>
+    <h6><a href="loadForum(0)">添加</a></h6>
+    </ul>
+    
+  </div>
+  <div class="span9">
+      <form id="form">
+        <h4>添加论坛</h4>
+        编号：<input type="text" name="forumId" id="forumId">
+        <br>
+        名称：<input type="text" name="forumName" id="forumName">
+        <br>
+        <button class="btn btn-large btn-primary" type="submit" onclick="submit()">保存</button>
+      </form>
+  </div>
+</div>
+<script>
+
+var action='new';
+//提交
+function submitForum(){
+
+}
+function loadForum(forumId){
+  if(forumId==0){
+    $("#forumId").val("");
+    $("#forumName").val("填写名字")
+  }
+  else{
+    //ajax加载
+    $.getJSON("get_forum",{'forumId':forumId},function(json){
+      //alert("Data: " + data + "\nStatus: " + status);
+      alert(json.forumId)
+      $("#forumId").val(json.forumId);
+      $("#forumName").val(json.forumName);  
+  });
+  }
+
+}
+
+</script>
+{% endblock%}
+
+{% block title %}
+  <h4 class="muted">编辑 </h4>
+{% endblock%}

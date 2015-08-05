@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row-fluid marketing">
+  <div class="span6">
+    <h4><a href="#">抓取论坛主题</a></h4>
+    <p>指定一个论坛号和批次号，启动爬虫，抓取的数据将保存到MongoDB</p>
+
+    <h4><a href="#">抓取帖子</a></h4>
+    <p>指定批次，从MongoDB中找到所有主题，抓取相关的所有帖子，保存到MongoDB中</p>
+
+    <h4><a href="forum_config">论坛配置</a></h4>
+    <p>论坛基础信息（论坛编号、名称）</p>
+
+    <h4><a href="#">爬虫登录信息</a></h4>
+    <p>维护爬虫登录信息</p>
+  </div>
+
+  <div class="span6">
+    <h4><a href="#">大数据：每日发帖分析</a></h4>
+    <p>显示一个论坛每天新增帖子请</p>
+
+    <h4><a href="#">大数据：回帖关系分析</a></h4>
+    <p>发帖人的回帖关系</p>
+
+    <h4><a href="#">大数据：xxx</a></h4>
+    <p>。。。</p>
+  </div>
+</div>
+{% endblock%}
+
+{% block title %}
+      <div class="jumbotron">
+        <h1>python web实践</h1>
+        <p class="lead">爬虫</p>
+        <p class="lead">mongo db</p>
+        <a class="btn btn-large btn-success" href="#">登录</a>
+      </div>
+{% endblock%}
