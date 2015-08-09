@@ -16,7 +16,8 @@
 	</ul>
 	<br/>
 	输入论坛ID :<input type="text" data-bind="value: forumId"/><input type="button" onclick='start_fetching()' value="启动"/>
-
+	<br/>
+	<input type="button" onclick="status()" value="status"/>
 	</div>
 	<div class="span2"></div>	  
 </div>
@@ -31,13 +32,20 @@ var viewModel={
 	forumId: ko.observable(),
 	other:'1'
 };
+
+var taskId;
 function start_fetching(){
 	//让后台启动任务
 	$.getJSON("/forum/start/" + viewModel.forumId(), function (data) {
-    	alert(data);
-
+    	alert(data.taskId);
+    	taskId=data.taskId;
 	});
 	
+}
+function status(){
+	$.getJSON("/status/"+taskId,function(data){
+		alert(data)
+	});
 }
 //页面加载完毕执行
 $(function(){
