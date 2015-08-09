@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<script src="static/js/knockout-3.3.0.js"></script>
+
+<div class="row-fluid marketing">
+	<div class="span2"></div>
+	<div class="span8">
+	当前执行的任务数量：<span data-bind='text:taskCount'></span>
+	<br/>
+	<input type="text" data-bind='value:taskCount'/>
+	<br/>
+	任务列表
+	<ul data-bind="foreach:taskList">
+	 	<!-- 这行代码将被重复显示，通过 name 来显示不同的值 -->
+		<li><span data-bind="text: forumName"></span>:<span data-bind="text: forumId"></span></li>
+	</ul>
+	<br/>
+	输入论坛ID :<input type="text" data-bind="value: forumId"/><input type="button" onclick='start_fetching()' value="启动"/>
+
+	</div>
+	<div class="span2"></div>	  
+</div>
+
+<script>
+var viewModel={
+	taskCount: ko.observable('5'),
+	taskList: ko.observableArray([
+		{'forumId':1,'forumName':'美食','startTime':'2015-01-01 12:00:00'},
+		{'forumId':2,'forumName':'财富','startTime':'2015-01-01 12:00:00'}
+	]),
+	forumId: ko.observable(),
+	other:'1'
+};
+function start_fetching(){
+	//让后台启动任务
+	$.getJSON("/forum/start/" + viewModel.forumId(), function (data) {
+    	alert(data);
+
+	});
+	
+}
+//页面加载完毕执行
+$(function(){
+
+	//从后台获取当前执行的任务情况
+	$.getJSON("/forum/running", function (data) {
+    	alert(data);
+
+	});
+	ko.applyBindings(viewModel);	
+});
+
+
+</script>
+{% endblock%}
+
+{% block title %}
+  <h4 class="muted"> 抓取论坛主题 </h4>
+{% endblock%}
