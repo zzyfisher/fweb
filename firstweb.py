@@ -3,8 +3,8 @@
 ' First Web 应用 '
 
 from flask import Flask,render_template ,jsonify,request
-from xitekInfo import ThreadInfo,PostInfo,PageInfo,ForumInfo
-from xitekMongo import MongoStore
+from scanner.po import ThreadInfo,PostInfo,PageInfo,ForumInfo
+from mongo_store import MongoStore
 
 app = Flask(__name__)
 
@@ -47,6 +47,30 @@ def add_forum():
     ms.open()
     ms.saveForum(forum)
     return "OK"
+
+
+#进入爬论坛相关的页面
+@app.route('/forum_fetch',methods=['GET'])
+def forum_fetch():
+    return render_template("forum_fetch.html")
+	
+#获取当前执行的爬虫列表
+@app.route('/forum/running',methods=['GET'])
+def forum_running():
+    list=[]
+    for i in range(1,3):
+        r = ForumInfo()
+        r.forumId=i
+        r.forumName='name for ' + str(i)
+        list.append(r)
+    return jsonify(list[0].__dict__)
+
+#启动任务
+@app.route('/forum/start/<forumId>',methods=['POST'])
+def forum_start(forumId):
+    
+    return "OK"
+    
 
 if __name__ == '__main__':
     app.debug = True
